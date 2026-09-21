@@ -1,6 +1,8 @@
 from decimal import Decimal
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
+from django.http import JsonResponse
+from django.db import connection
 from .models import Product, Category, Order, OrderItem, DeliveryZone
 
 def _cart(request):
@@ -9,6 +11,15 @@ def _cart(request):
 def _save_cart(request, cart):
     request.session["cart"] = cart
     request.session.modified = True
+
+def health(request):
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+            cursor.fetchone()
+        return JsonResponse({"status": "ok", "database": "ok", "service": "CimentBuild"})
+    except Exception as exc:
+        return JsonResponse({"status": "error", "database": "error", "detail": str(exc)[:300]}, status=503)
 
 def home(request):
     products = Product.objects.filter(active=True).select_related("category")
