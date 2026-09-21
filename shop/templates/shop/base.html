@@ -1,0 +1,4 @@
+{% load static %}
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{% block title %}CimentBuild{% endblock %}</title><link rel="stylesheet" href="{% static 'shop/style.css' %}"></head>
+<body><header><a class="logo" href="/">CimentBuild</a><nav><a href="/">Produits</a><a href="/panier/">Panier</a><a href="/tableau-de-bord/">Tableau de bord</a><a href="/admin/">Administration</a></nav></header>
+<main>{% for message in messages %}<div class="alert">{{ message }}</div>{% endfor %}{% block content %}{% endblock %}</main><footer>CimentBuild — Matériaux de construction • Lomé, Togo</footer></body></html>
